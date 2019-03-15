@@ -1,0 +1,27 @@
+﻿@using AgendaClinica.Core
+@model Massagem
+<form id="formDelete">
+    <p> Deseja realmente excluir o agendamento da Massagem do Cliente <strong>@Html.DisplayFor(model => model.cliente.Nome)</strong>?</p>
+
+    @Html.HiddenFor(model => model.idMassagem)
+</form>
+
+<hr />
+
+<div>
+    <button class="ui-state-default ui-corner-all" id="btnDelete">Excluir</button>
+    <button class="ui-state-default ui-corner-all" id="btnClose">Cancelar</button>
+</div>
+
+<script>
+    $("#btnDelete").click(function () {
+        $.post("/agenda/delete", $("#formDelete").serialize()
+          ).done(function () {
+              $("#divMassagens").load("/agenda/list");
+          });
+        $("#modal").dialog("close");
+    });
+    $("#btnClose").click(function () {
+        $("#modal").dialog("close");
+    });
+</script>

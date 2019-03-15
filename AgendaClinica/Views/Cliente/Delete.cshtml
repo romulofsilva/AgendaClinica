@@ -1,0 +1,27 @@
+﻿@using AgendaClinica.Core
+@model Cliente
+<form id="formDelete">
+    <p> Deseja realmente excluir o cliente <strong>@Html.DisplayFor(model => model.Nome)</strong>?</p>
+
+    @Html.HiddenFor(model => model.idPessoa)
+</form>
+
+<hr />
+
+<div>
+    <button class="ui-state-default ui-corner-all" id="btnDelete">Excluir</button>
+    <button class="ui-state-default ui-corner-all" id="btnClose">Cancelar</button>
+</div>
+
+<script>
+    $("#btnDelete").click(function () {
+        $.post("/cliente/delete", $("#formDelete").serialize()
+          ).done(function () {
+              $("#divClientes").load("/cliente/list");
+          });
+        $("#modal").dialog("close");
+    });
+    $("#btnClose").click(function () {
+        $("#modal").dialog("close");
+    });
+</script>

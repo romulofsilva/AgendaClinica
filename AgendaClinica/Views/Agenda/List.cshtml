@@ -1,0 +1,85 @@
+﻿@using AgendaClinica.Core;
+@model IEnumerable<Massagem>
+
+@{
+    ViewBag.Title = "Agendamentos";
+}
+
+<table class="ui-widget ui-state-default ui-corner-all">
+    <thead class="ui-widget-header">
+        <tr>
+            <th>
+                Código
+            </th>
+            <th>
+                Cliente
+            </th>
+            <th>
+                Tipo de Massagem
+            </th>
+            <th>
+                Data
+            </th>
+            <th>
+                <button class="ui-state-default ui-corner-all btn-create">
+                    <span class="ui-icon ui-icon-plus" />
+                </button>
+            </th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.idMassagem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cliente.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.idTipomassagem.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataAgendamento)
+            </td>
+            <td>
+                <button class="btn-delete ui-state-default ui-corner-all" data-codigo="@item.idMassagem">
+                    <span class="ui-icon ui-icon-trash" />
+                </button>
+                <button class="btn-edit ui-state-default ui-corner-all" data-codigo="@item.idMassagem">
+                    <span class="ui-icon ui-icon-pencil" />
+                </button>
+                <button class="btn-details ui-state-default ui-corner-all" data-codigo="@item.idMassagem">
+                    <span class="ui-icon ui-icon-document" />
+                </button>
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="modal">
+
+</div>
+
+<script>
+    $(function () {
+        $(".btn-create").click(function () {
+            $("#modal").load("/agenda/create").attr("title", "Agendar Massagem").dialog();
+        });
+
+        $(".btn-details").click(function () {
+            var codigo = $(this).attr("data-codigo");
+            $("#modal").load("/agenda/details/" + codigo).attr("title", "Dados da Massagem").dialog();
+        });
+
+        $(".btn-edit").click(function () {
+            var codigo = $(this).attr("data-codigo");
+            $("#modal").load("/agenda/edit/" + codigo).attr("title", "Editar massagem").dialog();
+        });
+
+        $(".btn-delete").click(function () {
+            var codigo = $(this).attr("data-codigo");
+            $("#modal").load("/agenda/delete/" + codigo).attr("title", "Excluir massagem").dialog();
+        });
+    });
+</script>

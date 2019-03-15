@@ -1,0 +1,56 @@
+﻿@using AgendaClinica.Core
+@model Massagem
+<form id="formCreate">
+    @Html.ValidationSummary(true)
+
+    <div class="editor-label">
+        Código
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.idMassagem)
+        @Html.ValidationMessageFor(model => model.idMassagem)
+    </div>
+
+    <div class="editor-label">
+        Cliente
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.cliente.Nome)
+        @Html.ValidationMessageFor(model => model.cliente.Nome)
+    </div>
+
+    <div class="editor-label">
+        Tipo de Massagem
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.idTipomassagem.Nome)
+        @Html.ValidationMessageFor(model => model.idTipomassagem.Nome)
+    </div>
+
+    <div class="editor-label">
+        Data
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.DataAgendamento)
+        @Html.ValidationMessageFor(model => model.DataAgendamento)
+    </div>
+
+</form>
+<hr />
+<div>
+    <button class="ui-state-default ui-corner-all" id="btnSave">Salvar</button>
+    <button class="ui-state-default ui-corner-all" id="btnClose">Cancelar</button>
+</div>
+
+<script>
+    $("#btnSave").click(function () {
+        $.post("/agenda/create", $("#formCreate").serialize()
+        ).done(function () {
+            $("#divMassagens").load("/agenda/list");
+        });
+        $("#modal").dialog("close");
+    });
+    $("#btnClose").click(function () {
+        $("#modal").dialog("close");
+    });
+</script>
